@@ -15,12 +15,16 @@ public class Ticket {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Ticket ticket = (Ticket) o;
-        return id == ticket.id &&
-                Objects.equals(session, ticket.session) &&
-                Objects.equals(point, ticket.point);
+        return id == ticket.id
+                && Objects.equals(session, ticket.session)
+                && Objects.equals(point, ticket.point);
     }
 
     @Override
