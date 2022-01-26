@@ -4,12 +4,13 @@ import ru.job4j.model.Account;
 import ru.job4j.model.Ticket;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface StoreTicket {
-    void saveTicket(Ticket acc);
-    void deleteTicket(Ticket acc);
+    int saveTicket(Ticket ticket);
+    void deleteTicket(int ticket_id);
     Ticket findTicketById(int id);
-    Collection<Ticket> findTicketsByAccount(Account acc);
-    Collection<Ticket> findAllTickets();
+    List<Ticket> findTicketsByAccountId(int account_id);
+    List<Ticket> findAllTickets();
 
 }

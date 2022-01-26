@@ -5,3 +5,10 @@ CREATE TABLE IF NOT EXISTS account (
   phone VARCHAR NOT NULL UNIQUE
 );
 
+CREATE TABLE IF NOT EXISTS ticket (
+id SERIAL PRIMARY KEY,
+session_id INT NOT NULL,
+rov INT NOT NULL,
+cell INT NOT NULL,
+account_id INT NOT NULL REFERENCES account(id)
+);
