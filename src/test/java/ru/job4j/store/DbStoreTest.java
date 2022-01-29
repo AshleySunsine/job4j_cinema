@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.model.Account;
+import ru.job4j.model.Point;
+import ru.job4j.model.Ticket;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -87,7 +89,6 @@ public class DbStoreTest {
         int idAcc = store.saveAccount(acc);
         Account accFromDb = store.findAccountById(idAcc);
         assertEquals(acc, accFromDb);
-        store.deleteAccount(idAcc);
     }
 
     @Test
@@ -133,12 +134,78 @@ public class DbStoreTest {
     }
 
     @Test
-    public void whenConstrainsViolationException() {
+    public void whenConstrainsViolationExceptionInTicket() {
         StoreAccount store = DbStore.instOf(POOL);
         Account acc1 = new Account(0, "Name1", "email1", "pone_number1");
         Account accExeption = new Account(0, "Name2", "email1", "pone_number2");
         store.saveAccount(acc1);
         int exep = store.saveAccount(accExeption);
         assertThat(exep, is(-1));
+    }
+
+    @Test
+    public void whenCreateTicket() {
+        DbStore store = DbStore.instOf(POOL);
+        Account acc = new Account(0, "Name1", "email1", "pone_number1");
+        int acc1 = store.saveAccount(acc);
+        Ticket tiket = new Ticket(0, 1, acc1, new Point(1, 1));
+        int idTiket = store.saveTicket(tiket);
+        Ticket tikOut = store.findTicketById(idTiket);
+        assertEquals(tiket, tikOut);
+    }
+
+    @Test
+    public void whenDeleteTicket() {
+        DbStore store = DbStore.instOf(POOL);
+        Account acc = new Account(0, "Name1", "email1", "pone_number");
+        int idAcc = store.saveAccount(acc);
+        Ticket tiket = new Ticket(0, 1, idAcc, new Point(1, 1));
+        int idTiket = store.saveTicket(tiket);
+        store.deleteTicket(idTiket);
+        Ticket tikOut = store.findTicketById(idTiket);
+        assertNull(tikOut);
+    }
+
+    @Test
+    public void whenFindTicketById() {
+        DbStore store = DbStore.instOf(POOL);
+        Account acc = new Account(0, "Name1", "email1", "pone_number1");
+        int acc1 = store.saveAccount(acc);
+        Ticket tiket = new Ticket(0, 1, acc1, new Point(1, 1));
+        int idTiket = store.saveTicket(tiket);
+        Ticket tikOut = store.findTicketById(idTiket);
+        assertEquals(tiket, tikOut);
+    }
+
+    @Test
+    public void whenFindTicketsByAccountId() {
+        DbStore store = DbStore.instOf(POOL);
+        Account acc = new Account(0, "Name1", "email1", "pone_number1");
+        int acc1 = store.saveAccount(acc);
+        Ticket tiket = new Ticket(0, 1, acc1, new Point(1, 1));
+        Ticket tiket1 = new Ticket(0, 1, acc1, new Point(2, 1));
+        Ticket tiket2 = new Ticket(0, 1, acc1, new Point(3, 1));
+        int idTiket = store.saveTicket(tiket);
+        int idTiket1 = store.saveTicket(tiket1);
+        int idTiket2 = store.saveTicket(tiket2);
+        List<Ticket> expectTickets = new ArrayList<>(List.of(tiket, tiket1, tiket2));
+        List<Ticket> tikOut = store.findTicketsByAccountId(acc1);
+        assertEquals(expectTickets, tikOut);
+    }
+
+    @Test
+    public void whenFindAllTickets() {
+        DbStore store = DbStore.instOf(POOL);
+        Account acc = new Account(0, "Name1", "email1", "pone_number1");
+        int acc1 = store.saveAccount(acc);
+        Ticket tiket = new Ticket(0, 1, acc1, new Point(1, 1));
+        Ticket tiket1 = new Ticket(0, 1, acc1, new Point(2, 1));
+        Ticket tiket2 = new Ticket(0, 1, acc1, new Point(3, 1));
+        int idTiket = store.saveTicket(tiket);
+        int idTiket1 = store.saveTicket(tiket1);
+        int idTiket2 = store.saveTicket(tiket2);
+        List<Ticket> expectTickets = new ArrayList<>(List.of(tiket, tiket1, tiket2));
+        List<Ticket> tikOut = store.findAllTickets();
+        assertEquals(expectTickets, tikOut);
     }
 }

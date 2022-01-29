@@ -178,10 +178,10 @@ public class DbStore implements StoreAccount, StoreTicket {
              PreparedStatement ps = cn.prepareStatement("INSERT INTO ticket (session_id, rov, cell, account_id)"
                              + " VALUES (?, ?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            ps.setInt(1, ticket.getSession_id());
+            ps.setInt(1, ticket.getSessionId());
             ps.setInt(2, ticket.getPoint().getRow());
             ps.setInt(3, ticket.getPoint().getColumn());
-            ps.setInt(4, ticket.getAccount_id());
+            ps.setInt(4, ticket.getAccountId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -198,10 +198,10 @@ public class DbStore implements StoreAccount, StoreTicket {
     }
 
     @Override
-    public void deleteTicket(int ticket_id) {
+    public void deleteTicket(int ticketId) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("DELETE from ticket where id = (?)")) {
-            ps.setInt(1, ticket_id);
+            ps.setInt(1, ticketId);
             ps.execute();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -218,8 +218,8 @@ public class DbStore implements StoreAccount, StoreTicket {
             try (ResultSet rs = ps.getResultSet()) {
                 if (rs.next()) {
                     Point point = new Point(rs.getInt("rov"), rs.getInt("cell"));
-                    ticket = new Ticket(rs.getInt("id"),rs.getInt("session_id"),
-                           rs.getInt("account_id") ,point);
+                    ticket = new Ticket(rs.getInt("id"), rs.getInt("session_id"),
+                           rs.getInt("account_id"), point);
                 }
             }
         } catch (Exception e) {
@@ -229,18 +229,18 @@ public class DbStore implements StoreAccount, StoreTicket {
     }
 
     @Override
-    public List<Ticket> findTicketsByAccountId(int account_id) {
+    public List<Ticket> findTicketsByAccountId(int accountId) {
         List<Ticket> tickets = new ArrayList<>();
         Point point = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("select * from ticket where account_id=(?)")) {
-            ps.setInt(1, account_id);
+            ps.setInt(1, accountId);
             ps.execute();
             try (ResultSet rs = ps.getResultSet()) {
                 while (rs.next()) {
                     point = new Point(rs.getInt("rov"), rs.getInt("cell"));
-                    tickets.add(new Ticket(rs.getInt("id"),rs.getInt("session_id"),
-                            rs.getInt("account_id") ,point));
+                    tickets.add(new Ticket(rs.getInt("id"), rs.getInt("session_id"),
+                            rs.getInt("account_id"), point));
                 }
             }
         } catch (Exception e) {
@@ -259,8 +259,8 @@ public class DbStore implements StoreAccount, StoreTicket {
             try (ResultSet rs = ps.getResultSet()) {
                 while (rs.next()) {
                     point = new Point(rs.getInt("rov"), rs.getInt("cell"));
-                    tickets.add(new Ticket(rs.getInt("id"),rs.getInt("session_id"),
-                            rs.getInt("account_id") ,point));
+                    tickets.add(new Ticket(rs.getInt("id"), rs.getInt("session_id"),
+                            rs.getInt("account_id"), point));
                 }
             }
         } catch (Exception e) {

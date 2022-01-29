@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface StoreTicket {
     int saveTicket(Ticket ticket);
-    void deleteTicket(int ticket_id);
+    void deleteTicket(int ticketId);
     Ticket findTicketById(int id);
-    List<Ticket> findTicketsByAccountId(int account_id);
+    List<Ticket> findTicketsByAccountId(int accountId);
     List<Ticket> findAllTickets();
 
 }

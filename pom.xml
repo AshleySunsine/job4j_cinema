@@ -70,6 +70,19 @@
       <version>1.7.30</version>
     </dependency>
 
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -125,7 +138,7 @@
       <version>2.2</version>
       <configuration>
         <port>8080</port>
-        <path>/dreamjob</path>
+        <path>/cinema</path>
       </configuration>
     </plugin>
 

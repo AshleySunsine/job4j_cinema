@@ -12,3 +12,6 @@ rov INT NOT NULL,
 cell INT NOT NULL,
 account_id INT NOT NULL REFERENCES account(id)
 );
+
+insert into account (username, email, phone) values ('a', 'a', '1');
+insert into ticket (session_id, rov, cell, account_id) values (1, 1, 1, 1);
