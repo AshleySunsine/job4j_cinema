@@ -38,7 +38,8 @@ public class HallServlet extends HttpServlet {
                                             DbStore.instOf().findAllTickets());
 
         String jsList = GSON.toJson(jsonClass);
-        output.write((jsList).getBytes(StandardCharsets.UTF_8));
+        output.write((jsList.toString()).getBytes(StandardCharsets.UTF_8));
+        System.out.println("dvdfdvds");
         System.out.println(jsList);
         System.out.println(output);
         output.flush();
