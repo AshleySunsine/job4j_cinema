@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -22,38 +22,60 @@
 </head>
 
 <script>
-    function colo() {
-        let elem = document.getElementById('1.1');
-        elem.hidden = true;
-        alert(elem);
-    }
-</script>
-
-
-<script>
     function send() {
-
         $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/cinema/hall.do',
+            type: 'GET',
+            url: 'http://localhost:8081/cinema/hall.do',
             dataType: 'json'
         }).done(function(xhr) {
-            //let answer = JSON.parse(data);
-
-            alert("dfdfb");
+            var account = xhr.acc;
+            var tickets = xhr.tickets;
+            hideSits(tickets);
         }).fail(function () {
             alert("ошибка");
         });
+    }
+
+    function hideSits(tickets) {
+        for (var tick of tickets) {
+            var y = tick.point.column;
+            var x = tick.point.row;
+            var sit = x + '.' + y;
+            let elem = document.getElementById(sit);
+            elem.hidden = true;
+        }
+    }
+
+    setTimeout(function(){
+        send();
+    }, 50000);
+
+    window.onload = function() {
+        send();
     }
 </script>
 
 <body>
 
 <div class="container">
+    <form
+            action="http://localhost:8081/cinema/payment.do"
+            method="get">
+
     <div class="row pt-3">
         <h4>
             Бронирование места на сеанс
         </h4>
+
+        <div class="form-group col-md-4">
+            <select id="inputState" class="form-control" name="sessionid">
+                <option value="1" selected>Сеанс 1</option>
+                <option value="2">Сеанс 2</option>
+                <option value="3">Сеанс 3</option>
+                <option value="4">Сеанс 4</option>
+            </select>
+        </div>
+
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -86,10 +108,9 @@
         </table>
     </div>
     <div class="row float-right">
-        <button type="button" class="btn btn-success">Оплатить</button>
-        <button type="button" class="btn btn-success" onclick="send()">атить</button>
-        <button type="button" class="btn btn-success" onclick="colo()">Скрыть</button>
+        <button type="submit" class="btn btn-success">Оплатить</button>
     </div>
+        </form>
 </div>
 </body>
 </html>

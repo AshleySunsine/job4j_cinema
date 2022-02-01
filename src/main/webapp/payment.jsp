@@ -1,3 +1,5 @@
+<%@ page language="java" pageEncoding="UTF-8" session="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,24 +18,33 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 
 <div class="container">
     <div class="row pt-3">
         <h3>
-            Вы выбрали ряд 1 место 1, Сумма : 500 рублей.
+            Вы выбрали ряд <c:out value="${row}"/> место <c:out value="${colom}"/>, сеанс <c:out value="${sessionid}"/>, Сумма : 500 рублей.
         </h3>
+
     </div>
     <div class="row">
-        <form>
+        <form action="<%=request.getContextPath()%>/save.do?row=df&colom=fd" mathod="get">
+            <input type="hidden"  id="row" name="row" value="<c:out value="${row}"/>">
+            <input type="hidden"  id="colom" name="colom" value="<c:out value="${colom}"/>">
+            <input type="hidden"  id="sessionid" name="sessionid" value="<c:out value="${sessionid}"/>">
             <div class="form-group">
                 <label for="username">ФИО</label>
-                <input type="text" class="form-control" id="username" placeholder="ФИО">
+                <input type="text" class="form-control" id="username" name="username" placeholder="<c:out value="${user}"/>">
+            </div>
+            <div class="form-group">
+                <label for="email">email</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="email">
             </div>
             <div class="form-group">
                 <label for="phone">Номер телефона</label>
-                <input type="text" class="form-control" id="phone" placeholder="Номер телефона">
+                <input type="text" class="form-control" id="phone" name="phone" placeholder="Номер телефона">
             </div>
-            <button type="button" class="btn btn-success">Оплатить</button>
+            <button type="submit" class="btn btn-primary">Оплатить</button>
         </form>
     </div>
 </div>

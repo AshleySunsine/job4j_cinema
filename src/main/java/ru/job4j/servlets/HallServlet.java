@@ -20,28 +20,23 @@ public class HallServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     private class JsonClass {
-        List<Account> accounts;
+        List<Account> acc;
         List<Ticket> tickets;
 
-        public JsonClass(List<Account> accounts, List<Ticket> tickets) {
-            this.accounts = accounts;
+        public JsonClass(List<Account> acc, List<Ticket> tickets) {
+            this.acc = acc;
             this.tickets = tickets;
         }
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
-
         JsonClass jsonClass = new JsonClass(DbStore.instOf().findAllAccount(),
                                             DbStore.instOf().findAllTickets());
-
         String jsList = GSON.toJson(jsonClass);
-        output.write((jsList.toString()).getBytes(StandardCharsets.UTF_8));
-        System.out.println("dvdfdvds");
-        System.out.println(jsList);
-        System.out.println(output);
+        output.write((jsList).getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();
     }

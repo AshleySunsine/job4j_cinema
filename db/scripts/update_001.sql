@@ -10,7 +10,8 @@ id SERIAL PRIMARY KEY,
 session_id INT NOT NULL,
 rov INT NOT NULL,
 cell INT NOT NULL,
-account_id INT NOT NULL REFERENCES account(id)
+account_id INT NOT NULL REFERENCES account(id),
+UNIQUE (session_id, rov, cell)
 );
 
 insert into account (username, email, phone) values ('a', 'a', '1');
